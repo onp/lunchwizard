@@ -26,8 +26,22 @@ def appli(environ, start_response):
 
     if environ['PATH_INFO'].startswith(STATIC_URL_PREFIX):
         return static_app(environ, start_response)
+    elif environ['PATH_INFO'] == "":
+        return home_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)
+        
+def home_app(environ, start_response):
+    """Serve the homepage"""
+    
+    headers = [('content-type', 'text/html')]
+    h = open ("home.html","rb")
+    content = h.read()
+    h.close()
+    
+    start_response('200 OK', headers)
+    return [content]
+    
         
 def static_app(environ, start_response):
     """Serve static files from the directory named
