@@ -55,8 +55,8 @@ def show_404_app(environ, start_response):
     """Serve 404"""
     
     data = b"404\n\n File not found."
-      start_response("200 OK", [
-          ("Content-Type", "text/plain"),
-          ("Content-Length", str(len(data)))
-      ])
-      return iter([data])
+    start_response("200 OK", [
+        ("Content-Type", "text/plain"),
+        ("Content-Length", str(len(data)))
+    ])
+    return iter([data])
