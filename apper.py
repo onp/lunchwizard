@@ -54,5 +54,9 @@ def static_app(environ, start_response):
 def show_404_app(environ, start_response):
     """Serve 404"""
     
-    # we want to remove '/static' from the start
-    path = path.replace(STATIC_URL_PREFIX, STATIC_FILE_DIR)
+    data = b"404\n\n File not found."
+      start_response("200 OK", [
+          ("Content-Type", "text/plain"),
+          ("Content-Length", str(len(data)))
+      ])
+      return iter([data])
