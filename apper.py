@@ -68,9 +68,12 @@ def static_app(environ, start_response):
 def show_404_app(environ, start_response):
     """Serve 404"""
     
-    data = b"404\n\n File not found."
+    data = "404\n\n File not found."
+    data += "\n" + environ['PATH_INFO']
+    data += "\n" + environ['SCRIPT_NAME']
+    
     start_response("200 OK", [
         ("Content-Type", "text/plain"),
         ("Content-Length", str(len(data)))
     ])
-    return iter([data])
+    return [data]
