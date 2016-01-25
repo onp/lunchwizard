@@ -1,5 +1,6 @@
 import psycopg2
 import urllib.parse
+import os
 
 def dbConnect():
     urllib.parse.uses_netloc.append("postgres")
