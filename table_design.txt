@@ -1,0 +1,26 @@
+CREATE TABLE players (
+
+    player_id      serial         PRIMARY KEY,
+    name           varchar(30)    UNIQUE NOT NULL,
+	join_date      date
+
+)
+
+CREATE TABLE games (
+
+    game_id        serial         PRIMARY KEY,
+	date           date
+
+)
+
+CREATE TABLE scores (
+
+    player_id      integer        REFERENCES players,
+	game_id        integer        REFERENCES games,
+	score          smallint,
+	points         smallint,
+	tiebreak       smallint,
+	
+	PRIMARY KEY(game_id,player_id)
+
+)
