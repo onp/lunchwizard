@@ -45,4 +45,5 @@ conn.commit()
 
 cur.execute("SELECT relname FROM pg_class WHERE relkind='r' AND relname !~ '^(pg_|sql_)';")
 
+print("created:")
 print(cur.fetchall())

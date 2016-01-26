@@ -1,5 +1,6 @@
 import os
 import urllib.parse
+from string import Template
 
 STATIC_URL_PREFIX = '/static/'
 STATIC_FILE_DIR = 'static/' 
@@ -32,6 +33,8 @@ def appli(environ, start_response):
         return home_app(environ, start_response)
     elif environ['PATH_INFO'] == '/favicon.ico':
         return favicon_app(environ, start_response)
+    elif environ['PATH_INFO'] == '/players.html':
+        return players_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)
         
@@ -65,6 +68,21 @@ def home_app(environ, start_response):
         h = open ("home.html","rb")
         content = h.read()
         h.close()
+    
+    headers = [('content-type', 'text/html')]
+    start_response('200 OK', headers)
+    return [content]
+    
+def players_app(environ, start_response):
+    """Serve the players page"""
+    
+    h = open ("templates/players.html")
+    content_template = Template(h.read())
+    h.close()
+    
+    content = content_template.substitute(p1="hello",p2="there")
+    
+    content = content.encode("utf8")
     
     headers = [('content-type', 'text/html')]
     start_response('200 OK', headers)
