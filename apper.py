@@ -1,6 +1,8 @@
 import os
 import urllib.parse
 from string import Template
+from dbConnect import dbConnect
+import datetime
 
 STATIC_URL_PREFIX = '/static/'
 STATIC_FILE_DIR = 'static/' 
@@ -76,16 +78,51 @@ def home_app(environ, start_response):
 def players_app(environ, start_response):
     """Serve the players page"""
     
+    conn = dbConnect()
+    
+     if environ['REQUEST_METHOD'] == 'POST':
+        # the environment variable CONTENT_LENGTH may be empty or missing
+        try:
+            request_body_size = int(environ.get('CONTENT_LENGTH', 0))
+        except (ValueError):
+            request_body_size = 0
+
+        # When the method is POST the variable will be sent
+        # in the HTTP request body which is passed by the WSGI server
+        # in the file like wsgi.input environment variable.
+        request_body = environ['wsgi.input'].read(request_body_size)
+        d = urllib.parse.parse_qs(request_body)
+        
+        np = d.get(b"p1")
+        
+        if np is not None:
+            np = np.decode()
+            with conn:
+                with cur as conn.cursor():
+                    cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
+                            (np,datetime.date.today()))
+                        
+        
+    
     h = open ("templates/players.html")
     content_template = Template(h.read())
     h.close()
     
-    content = content_template.substitute(p1="hello",p2="there")
+    with conn:
+        with cur as conn.cursor():
+            cur.execute("SELECT name FROM players;")
+            plist = cur.fetchall()
+    
+    
+    content = content_template.substitute(p1=str(plist))
     
     content = content.encode("utf8")
     
     headers = [('content-type', 'text/html')]
     start_response('200 OK', headers)
+    
+    conn.close()
+    
     return [content]
     
 def favicon_app(environ, start_response):
