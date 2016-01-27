@@ -98,7 +98,7 @@ def players_app(environ, start_response):
         if np is not None:
             np = np.decode()
             with conn:
-                with cur as conn.cursor():
+                with conn.cursor() as cur:
                     cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
                             (np,datetime.date.today()))
                         
@@ -109,7 +109,7 @@ def players_app(environ, start_response):
     h.close()
     
     with conn:
-        with cur as conn.cursor():
+        with conn.cursor() as cur:
             cur.execute("SELECT name FROM players;")
             plist = cur.fetchall()
     
