@@ -80,7 +80,7 @@ def players_app(environ, start_response):
     
     conn = dbConnect()
     
-     if environ['REQUEST_METHOD'] == 'POST':
+    if environ['REQUEST_METHOD'] == 'POST':
         # the environment variable CONTENT_LENGTH may be empty or missing
         try:
             request_body_size = int(environ.get('CONTENT_LENGTH', 0))
