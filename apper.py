@@ -96,7 +96,7 @@ def players_app(environ, start_response):
         np = d.get(b"p1")
         
         if np is not None:
-            np = np.decode()
+            np = np[0].decode()
             with conn:
                 with conn.cursor() as cur:
                     cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
