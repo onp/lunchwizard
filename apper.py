@@ -3,6 +3,9 @@ import urllib.parse
 from string import Template
 from dbConnect import dbConnect
 import datetime
+import cgi
+
+from openpyxl import load_workbook
 
 STATIC_URL_PREFIX = '/static/'
 STATIC_FILE_DIR = 'static/' 
@@ -37,6 +40,8 @@ def appli(environ, start_response):
         return favicon_app(environ, start_response)
     elif environ['PATH_INFO'] == '/players.html':
         return players_app(environ, start_response)
+    elif environ['PATH_INFO'] == '/excel.html':
+        return excelUpload_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)
         
@@ -112,6 +117,45 @@ def players_app(environ, start_response):
         with conn.cursor() as cur:
             cur.execute("SELECT name FROM players;")
             plist = cur.fetchall()
+    
+    
+    content = content_template.substitute(p1=str(plist))
+    
+    content = content.encode("utf8")
+    
+    headers = [('content-type', 'text/html')]
+    start_response('200 OK', headers)
+    
+    conn.close()
+    
+    return [content]
+    
+def excelUpload_app(environ, start_response):
+    """Handle excel data file uploads"""
+    
+    #conn = dbConnect()
+    
+    plist = 'nothing posted'
+    
+    if environ['REQUEST_METHOD'] == 'POST':
+        formdata = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
+        
+        if 'excelUpload' in formdata and formdata['excelUpload'].filename != "":
+            wb = load_workbook(formdata['newfile'].file)
+            ws = wb["game"]
+            plist = ws['a4'].value
+            
+                        
+        
+    
+    h = open ("templates/excel.html")
+    content_template = Template(h.read())
+    h.close()
+    
+    # with conn:
+        # with conn.cursor() as cur:
+            # cur.execute("SELECT name FROM players;")
+            # plist = cur.fetchall()
     
     
     content = content_template.substitute(p1=str(plist))
