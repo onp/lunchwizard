@@ -147,10 +147,10 @@ def excelUpload_app(environ, start_response):
                 with conn.cursor() as cur:
                     for nameCell in ws.rows[0][1:]:
                         name = nameCell.value
-                        cur.execute("SELECT name FROM players WHERE name = %s",(name))
+                        cur.execute("SELECT name FROM players WHERE name = %s",(name,))
                         if cur.fetchone() is None:
                             cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
-                            (np,datetime.date.today()))
+                            (name,datetime.date.today()))
             
             
             
