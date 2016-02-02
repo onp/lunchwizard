@@ -148,7 +148,7 @@ def excelUpload_app(environ, start_response):
                 with conn.cursor() as cur:
                     for nameCell in ws.rows[0][1:]:
                         name = nameCell.value
-                        cur.execute("SELECT id FROM players WHERE name = %s",(name,))
+                        cur.execute("SELECT player_id FROM players WHERE name = %s",(name,))
                         playerID = cur.fetchone()
                         if playerID is not None:
                             playerIDs.append(playerID[0])
