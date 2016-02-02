@@ -168,9 +168,9 @@ def excelUpload_app(environ, start_response):
                             points = game[col].value
                             if points is not None:
                                 scoreData.append((pID,gameID,points))
-                        cur.executemany("INSERT INTO scores (player_ID,game_ID,points) VALUES (%s,%s,%s)")
+                        cur.executemany("INSERT INTO scores (player_ID,game_ID,points) VALUES (%s,%s,%s)",scoreData)
                         
-            plist = 'data loaded'
+            plist = 'data loaded.'
             
     h = open ("templates/excel.html")
     content_template = Template(h.read())
