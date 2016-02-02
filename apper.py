@@ -141,7 +141,7 @@ def excelUpload_app(environ, start_response):
         formdata = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
         
         if 'excelUpload' in formdata and formdata['excelUpload'].filename != "":
-            wb = load_workbook(formdata['newfile'].file)
+            wb = load_workbook(formdata['excelUpload'].file)
             ws = wb["game"]
             plist = ws['a4'].value
             
