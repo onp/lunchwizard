@@ -165,7 +165,7 @@ def excelUpload_app(environ, start_response):
     headers = [('content-type', 'text/html')]
     start_response('200 OK', headers)
     
-    conn.close()
+    #conn.close()
     
     return [content]
     
