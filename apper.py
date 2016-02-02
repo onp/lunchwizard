@@ -161,7 +161,7 @@ def excelUpload_app(environ, start_response):
             with conn:
                 with conn.cursor() as cur:
                     for game in ws.rows[1:]:
-                        cur.execute("INSERT INTO games (date) VALUES %s RETURNING game_id",(game[0].value,))
+                        cur.execute("INSERT INTO games (date) VALUES (%s) RETURNING game_id",(game[0].value,))
                         gameID = cur.fetchone()[0]
                         scoreData = []
                         for col,pID in enumerate(playerIDs):
