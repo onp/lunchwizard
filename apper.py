@@ -164,7 +164,7 @@ def excelUpload_app(environ, start_response):
                         cur.execute("INSERT INTO games (date) VALUES (%s) RETURNING game_id",(game[0].value,))
                         gameID = cur.fetchone()[0]
                         scoreData = []
-                        for col,pID in enumerate(playerIDs):
+                        for col,pID in enumerate(playerIDs,1):
                             points = game[col].value
                             if points is not None:
                                 scoreData.append((pID,gameID,points))
