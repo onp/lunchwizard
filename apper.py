@@ -143,29 +143,38 @@ def excelUpload_app(environ, start_response):
         if 'excelUpload' in formdata and formdata['excelUpload'].filename != "":
             wb = load_workbook(formdata['excelUpload'].file)
             ws = wb["raw"]
+            playerIDs = []
             with conn:
                 with conn.cursor() as cur:
                     for nameCell in ws.rows[0][1:]:
                         name = nameCell.value
-                        cur.execute("SELECT name FROM players WHERE name = %s",(name,))
-                        if cur.fetchone() is None:
-                            cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
+                        cur.execute("SELECT id FROM players WHERE name = %s",(name,))
+                        playerID = cur.fetchone()
+                        if playerID is not None:
+                            playerIDs.append(playerID[0])
+                        else:
+                            cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s) RETURNING player_id;",
                             (name,datetime.date.today()))
+                            playerID = cur.fetchone()
+                            playerIDs.append(playerID[0])
             
-            
-            
+            with conn:
+                with conn.cursor() as cur:
+                    for game in ws.rows[1:]:
+                        cur.execute("INSERT INTO games (date) VALUES %s RETURNING game_id",(game[0].value,))
+                        gameID = cur.fetchone()[0]
+                        scoreData = []
+                        for col,pID in enumerate(playerIDs):
+                            points = game[col].value
+                            if points is not None:
+                                scoreData.append((pID,gameID,points))
+                        cur.executemany("INSERT INTO scores (player_ID,game_ID,points) VALUES (%s,%s,%s)")
                         
-        
-    
+            plist = 'data loaded'
+            
     h = open ("templates/excel.html")
     content_template = Template(h.read())
     h.close()
-    
-    # with conn:
-        # with conn.cursor() as cur:
-            # cur.execute("SELECT name FROM players;")
-            # plist = cur.fetchall()
-    
     
     content = content_template.substitute(p1=str(plist))
     
@@ -177,6 +186,24 @@ def excelUpload_app(environ, start_response):
     conn.close()
     
     return [content]
+    
+def score_app(environ, start_response):
+    conn = dbConnect()
+    
+    h = open ("templates/excel.html")
+    content_template = Template(h.read())
+    h.close()
+    
+    
+    
+    
+    headers = [('content-type', 'text/html')]
+    start_response('200 OK', headers)
+    
+    conn.close()
+    
+    return [content]
+    
     
 def favicon_app(environ, start_response):
     """Serve the favicon"""
