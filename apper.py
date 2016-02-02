@@ -38,9 +38,9 @@ def appli(environ, start_response):
         return home_app(environ, start_response)
     elif environ['PATH_INFO'] == '/favicon.ico':
         return favicon_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/players.html':
+    elif environ['PATH_INFO'] == '/players':
         return players_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/excel.html':
+    elif environ['PATH_INFO'] == '/excel':
         return excelUpload_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)
@@ -133,7 +133,7 @@ def players_app(environ, start_response):
 def excelUpload_app(environ, start_response):
     """Handle excel data file uploads"""
     
-    #conn = dbConnect()
+    conn = dbConnect()
     
     plist = 'nothing posted'
     
@@ -142,8 +142,17 @@ def excelUpload_app(environ, start_response):
         
         if 'excelUpload' in formdata and formdata['excelUpload'].filename != "":
             wb = load_workbook(formdata['excelUpload'].file)
-            ws = wb["game"]
-            plist = ws['a4'].value
+            ws = wb["raw"]
+            with conn:
+                with conn.cursor() as cur:
+                    for nameCell in ws.rows[0][1:]:
+                        name = nameCell.value
+                        cur.execute("SELECT name FROM players WHERE name = %s",(name))
+                        if cur.fetchone() is None:
+                            cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
+                            (np,datetime.date.today()))
+            
+            
             
                         
         
@@ -165,7 +174,7 @@ def excelUpload_app(environ, start_response):
     headers = [('content-type', 'text/html')]
     start_response('200 OK', headers)
     
-    #conn.close()
+    conn.close()
     
     return [content]
     
