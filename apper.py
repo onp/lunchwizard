@@ -204,7 +204,7 @@ def score_app(environ, start_response):
     with conn:
         with conn.cursor() as cur:
             #get players that were active in the time period
-            cur.execute("""SELECT player_id
+            cur.execute("""SELECT DISTINCT player_id
             FROM scores INNER JOIN games
             ON (scores.game_id = games.game_id)
             WHERE games.date > %s
