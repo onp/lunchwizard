@@ -178,7 +178,7 @@ def excelUpload_app(environ, start_response):
     content_template = Template(h.read())
     h.close()
     
-    content = content_template.substitute(_game=str(plist))
+    content = content_template.substitute(p1=str(plist))
     
     content = content.encode("utf8")
     
@@ -213,7 +213,7 @@ def score_app(environ, start_response):
             
             plist = cur.fetchall()
     
-    content = content_template.substitute(p1=str(plist))
+    content = content_template.substitute(_game=str(plist))
     
     content = content.encode("utf8")
     
