@@ -42,6 +42,8 @@ def appli(environ, start_response):
         return players_app(environ, start_response)
     elif environ['PATH_INFO'] == '/excel':
         return excelUpload_app(environ, start_response)
+    elif environ['PATH_INFO'] == '/score':
+        return score_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)
         
@@ -190,12 +192,30 @@ def excelUpload_app(environ, start_response):
 def score_app(environ, start_response):
     conn = dbConnect()
     
-    h = open ("templates/excel.html")
+    h = open ("templates/score.html")
     content_template = Template(h.read())
     h.close()
     
+    date1 = datetime.date(2015,8,1)
+    date2 = datetime.date(2015,11,4)
     
+    plist = "failed"
     
+    with conn:
+        with conn.cursor() as cur:
+            #get players that were active in the time period
+            cur.execute("""SELECT player_id
+            FROM scores INNER JOIN games
+            ON (scores.game_id = games.game_id)
+            WHERE games.date > %s
+            AND games.date < %s """,
+            (date1,date2))
+            
+            plist = cur.fetchall()
+    
+    content = content_template.substitute(p1=str(plist))
+    
+    content = content.encode("utf8")
     
     headers = [('content-type', 'text/html')]
     start_response('200 OK', headers)
