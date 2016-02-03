@@ -227,13 +227,13 @@ def score_app(environ, start_response):
             
             glist = [x[0] for x in cur.fetchall()]
             
-        with conn.cursor() as cur:
-            #get scores for active players
-            cur.execute("""SELECT players.name,games.points
-            FROM players LEFT OUTER JOIN scores
-            ON (players.player_id = scores.player_id)
-            WHERE game_id = %s """,
-            (glist[0]))
+        # with conn.cursor() as cur:
+            get scores for active players
+            # cur.execute("""SELECT players.name,games.points
+            # FROM players LEFT OUTER JOIN scores
+            # ON (players.player_id = scores.player_id)
+            # WHERE game_id = %s """,
+            # (glist[0]))
             
             slist = cur.fetchall()
     
