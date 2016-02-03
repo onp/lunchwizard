@@ -201,6 +201,10 @@ def score_app(environ, start_response):
     
     plist = "failed"
     
+    glist = "failed"
+    
+    slist = "failed"
+    
     with conn:
         with conn.cursor() as cur:
             #get players that were active in the time period
@@ -211,9 +215,29 @@ def score_app(environ, start_response):
             AND games.date < %s """,
             (date1,date2))
             
-            plist = cur.fetchall()
+            plist = [x[0] for x in cur.fetchall()]
+            
+        with conn.cursor() as cur:
+            #get games that happened in the time period
+            cur.execute("""SELECT game_id
+            FROM games
+            WHERE games.date > %s
+            AND games.date < %s """,
+            (date1,date2))
+            
+            glist = [x[0] for x in cur.fetchall()]
+            
+        with conn.cursor() as cur:
+            #get scores for active players
+            cur.execute("""SELECT players.name,games.points
+            FROM players LEFT OUTER JOIN scores
+            ON (players.player_id = scores.player_id)
+            WHERE game_id = %s """,
+            (glist[0]))
+            
+            slist = cur.fetchall()
     
-    content = content_template.substitute(_game=str(plist))
+    content = content_template.substitute(_players=str(plist),_games=str(glist),_scores=str(slist))
     
     content = content.encode("utf8")
     
