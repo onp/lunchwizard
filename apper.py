@@ -229,7 +229,7 @@ def score_app(environ, start_response):
             
         with conn.cursor() as cur:
             #get scores for active players
-            cur.execute("""SELECT players.name, games.points
+            cur.execute("""SELECT players.name, scores.points
             FROM players LEFT OUTER JOIN scores
             ON (players.player_id = scores.player_id)
             WHERE game_id = %s """,
