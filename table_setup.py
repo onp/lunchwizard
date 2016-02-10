@@ -1,5 +1,8 @@
 from dbConnect import dbConnect
 
+# use "heroku pg:reset DATABASE" to clear everything from the database before running this.
+
+
 playerDef = """
     CREATE TABLE players (
 
@@ -32,6 +35,13 @@ scoresDef = """
 
     );
 """
+
+datedScores = """
+    CREATE VIEW datedScores AS
+    SELECT * FROM games INNER JOIN scores
+    USING game_id
+"""
+    
 
 conn = dbConnect()
 
