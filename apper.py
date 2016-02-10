@@ -17,6 +17,13 @@ MIME_TABLE = {'.txt': 'text/plain',
               '.png': 'image/png',
               '.js': 'application/javascript',
              }
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            return o.isoformat()
+
+        return json.JSONEncoder.default(self, o)
              
 def content_type(path):
     """Return a guess at the mime type for this path
@@ -298,8 +305,10 @@ def data_app(environ,start_response):
                 (p,))
                 data[p] = cur.fetchall()
     
-    content = json.dumps(data).encode("utf8")
+    jsonData = json.dumps(data,cls=DateTimeEncoder)
 
+    content = jsonData.encode("utf8")
+    
     headers = [('content-type', 'application/json')]
     start_response('200 OK', headers)
 
