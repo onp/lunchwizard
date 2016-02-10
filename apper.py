@@ -256,7 +256,7 @@ def score_app(environ, start_response):
    # 
    # content = content.encode("utf8")
     
-    h = open ("score.html","rb")
+    h = open ("templates/score.html","rb")
     content = h.read()
     h.close()
     
