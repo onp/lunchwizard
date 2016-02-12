@@ -84,7 +84,7 @@ def home_app(environ, start_response):
         
     
     else:
-        h = open ("home.html","rb")
+        h = open ("index.html","rb")
         content = h.read()
         h.close()
     
