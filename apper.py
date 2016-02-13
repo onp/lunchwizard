@@ -52,7 +52,7 @@ def appli(environ, start_response):
         return excelUpload_app(environ, start_response)
     elif environ['PATH_INFO'] == '/score':
         return score_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/data':
+    elif environ['PATH_INFO'] == '/data.json':
         return data_app(environ, start_response)
     else:
         return show_404_app(environ, start_response)

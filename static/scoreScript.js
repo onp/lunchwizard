@@ -55,7 +55,7 @@ svg.append("rect")
     .call(zoom);
     
 
-d3.json("sampleData.json", function(error, data) {
+d3.json("data.json", function(error, data) {
   if (error) throw error;
 
   color.domain(d3.keys(data));
