@@ -54,14 +54,16 @@ svg.append("rect")
     .attr("height", height)
     .call(zoom);
     
+var minDate,maxDate;
+    
 
 d3.json("data.json", function(error, data) {
   if (error) throw error;
 
   color.domain(d3.keys(data));
   
-  var minDate;
-  var maxDate;
+  //var minDate;
+  //var maxDate;
 
   var players = color.domain().map(function(name) {
     return {
@@ -83,9 +85,6 @@ d3.json("data.json", function(error, data) {
   ]);
   
   zoom.x(x)
-    .scaleExtent([1,16])
-    //.xExtent(x.domain());
-
 
 
   var player = svg.selectAll(".player")
@@ -98,13 +97,13 @@ d3.json("data.json", function(error, data) {
      // .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); });
 
-  player.append("text")
+ /*  player.append("text")
       .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
       .attr("class","label")
       // .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.points) + ")"; })
       .attr("x", 3)
       .attr("dy", ".35em")
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.name; }); */
       
   draw()
       
@@ -112,8 +111,49 @@ d3.json("data.json", function(error, data) {
 
 function draw() {
   console.log("redrawing")
+  
+  //clamping pan to data range.
+  console.log(x.domain())
+  
+  var currentDomain = x.domain()
+  
+  console.log((currentDomain[1].valueOf()-currentDomain[0].valueOf())/86400000)
+  
+  //keep min and max within range.
+  
+  
+  //keep domain at least 5 days wide.
+  if (currentDomain[0].valueOf() > (currentDomain[1].valueOf()-86400000*5)){
+      console.log("bottom too high")
+      currentDomain[0] = new Date(maxDate.valueOf()-86400000*5)
+  }
+  
+  if (currentDomain[1].valueOf() < (currentDomain[0].valueOf()+86400000*5)){
+      currentDomain[1] = new Date(minDate.valueOf()+86400000*5)
+  }
+  
+  
+  if (currentDomain[0] < minDate){
+      currentDomain[0] = minDate;
+  }
+  
+  if (currentDomain[1] > maxDate){
+      currentDomain[1] = maxDate;
+  }
+  
+  console.log(currentDomain)
+  x.domain(currentDomain)
+  console.log(x.domain())
+  
+  if (d3.event){
+      console.log(d3.event["scale"])
+  }
+  
+  
+  zoom.x(x)
+  
   svg.select("g.x.axis").call(xAxis);
   svg.select("g.y.axis").call(yAxis);
   svg.selectAll("path.line").attr("d", function(d) { return line(d.values); })
-  svg.selectAll("text.label").attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.points) + ")"; })
+  //svg.selectAll("text.label").attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.points) + ")"; })
 }
