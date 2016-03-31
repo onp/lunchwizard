@@ -44,8 +44,8 @@ var svg = d3.select("#plt").append("svg")
 
 svg.append("g") // element to hold x axis
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")"); // place x axis container at bottom of chart
-    .call(xAxis) // draw the axis
+    .attr("transform", "translate(0," + height + ")") // place x axis container at bottom of chart
+    .call(xAxis); // draw the axis
   
 
 svg.append("g") // element to hold y axis
