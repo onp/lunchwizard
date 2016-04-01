@@ -45,12 +45,10 @@ var svg = d3.select("#plt").append("svg")
 svg.append("g") // element to hold x axis
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")") // place x axis container at bottom of chart
-    .call(xAxis); // draw the axis
   
 
 svg.append("g") // element to hold y axis
   .attr("class", "y axis")
-  .call(yAxis)  // draw the axis
 .append("text") // y axis label
   .attr("text-anchor", "middle") // tranforms will move the center of the element
   .attr("transform", "translate("+ (margin.left/2) +","+(height/2)+")rotate(-90)")
@@ -58,23 +56,15 @@ svg.append("g") // element to hold y axis
   .attr("dy", ".71em")
   .style("text-anchor", "end")
   .text("points");
-  
-svg.append("rect")
-    .attr("class", "pane")
-    .attr("width", width)
-    .attr("height", height)
-    .call(zoom);
-    
-var minDate,maxDate;
-    
 
+// collect data and draw graph
 d3.json("data.json", function(error, data) {
   if (error) throw error;
 
   color.domain(d3.keys(data));
   
-  //var minDate;
-  //var maxDate;
+  var minDate;
+  var maxDate;
 
   var players = color.domain().map(function(name) {
     return {
@@ -94,18 +84,23 @@ d3.json("data.json", function(error, data) {
     d3.min(players, function(c) { return d3.min(c.values, function(v) { return v.points; }); }),
     d3.max(players, function(c) { return d3.max(c.values, function(v) { return v.points; }); })
   ]);
+  
+  svg.select("g.x.axis").call(xAxis); //draw x axis
+  svg.select("g.y.axis").call(yAxis); //draw y axis
 
-
+    //create an element for each player
   var player = svg.selectAll(".player")
       .data(players)
     .enter().append("g")
       .attr("class", "player");
 
+    //create a score line in each player's element.
   player.append("path")
       .attr("class", "line")
      // .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); });
-      
+    
+    //update the score line with the player's score data.
   svg.selectAll("path.line").attr("d", function(d) { return line(d.values); })    
    
 });

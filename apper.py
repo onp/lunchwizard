@@ -5,6 +5,7 @@ from dbConnect import dbConnect
 import datetime
 import cgi
 import json
+import flask
 
 from openpyxl import load_workbook
 
@@ -36,7 +37,7 @@ def content_type(path):
     else:
         return "application/octet-stream"
 
-def appli(environ, start_response):
+def serverApp(environ, start_response):
     """WSGI application to switch between different applications
     based on the request URI"""
 
