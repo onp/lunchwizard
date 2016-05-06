@@ -22,6 +22,7 @@ def index():
     return content
 
 @app.route("/data.json")
+def data():
     conn = dbConnect()
     
     date1 = datetime.date(2015,8,1)
