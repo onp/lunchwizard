@@ -7,10 +7,13 @@ import cgi
 import json
 from flask import Flask,jsonify
 
-app = Flask(__name__)
+
 
 from openpyxl import load_workbook
 
+
+app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 @app.route("/")
 def index():
