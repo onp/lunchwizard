@@ -51,7 +51,7 @@ svg.append("g") // element to hold y axis
   .attr("class", "y axis")
 .append("text") // y axis label
   .attr("text-anchor", "middle") // tranforms will move the center of the element
-  .attr("transform", "translate("+ (-margin.left/2) +","+(height/2)+")rotate(-90)")
+  .attr("transform", "translate("+ (-margin.left) +","+(height/2)+")rotate(-90)")
   .attr("y", 6)
   .attr("dy", ".71em")
   .style("text-anchor", "end")

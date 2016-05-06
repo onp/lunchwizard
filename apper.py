@@ -5,9 +5,23 @@ from dbConnect import dbConnect
 import datetime
 import cgi
 import json
-import flask
+from flask import Flask
+
+app = Flask(__name__)
 
 from openpyxl import load_workbook
+
+
+@app.route("/")
+def index():
+
+    h = open ("index.html","rb")
+    content = h.read()
+    h.close()
+    
+    return content
+
+
 
 STATIC_URL_PREFIX = '/static/'
 STATIC_FILE_DIR = 'static/' 
