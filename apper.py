@@ -105,7 +105,7 @@ def serverApp(environ, start_response):
     """WSGI application to switch between different applications
     based on the request URI"""
 
-    elif environ['PATH_INFO'] == '/players':
+    if environ['PATH_INFO'] == '/players':
         return players_app(environ, start_response)
     elif environ['PATH_INFO'] == '/score':
         return score_app(environ, start_response)

@@ -1,6 +1,7 @@
 from dbConnect import dbConnect
 
 # use "heroku pg:reset DATABASE" to clear everything from the database before running this.
+# run with "heroku run python table_setup.py"
 
 
 playerDef = """
