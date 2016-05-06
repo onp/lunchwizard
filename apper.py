@@ -55,7 +55,7 @@ def data():
                 (p,))
                 data[p] = cur.fetchall()
 
-    return str(data)
+    return jsonify(data)
     
 
 
