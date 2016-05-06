@@ -5,7 +5,7 @@ from dbConnect import dbConnect
 import datetime
 import cgi
 import json
-from flask import Flask,jsonify
+from flask import Flask,jsonify,request,render_template
 
 
 
@@ -57,54 +57,59 @@ def data():
 
     return jsonify(data)
     
-
-
-STATIC_URL_PREFIX = '/static/'
-STATIC_FILE_DIR = 'static/' 
-
-MIME_TABLE = {'.txt': 'text/plain',
-              '.html': 'text/html',
-              '.css': 'text/css',
-              '.png': 'image/png',
-              '.js': 'application/javascript',
-             }
-
-class DateTimeEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, datetime.datetime) or isinstance(o, datetime.date):
-            return o.isoformat()
-
-        return json.JSONEncoder.default(self, o)
+@app.route("/excel",methods=['POST','GET'])
+def excelUpload_app():
+    """Handle excel data file uploads"""
+    
+    conn = dbConnect()
+    
+    plist = 'nothing posted'
+    
+    if request.method == 'POST':
+        wb = load_workbook(request.files['excelUpload'])
+        ws = wb["raw"]
+        playerIDs = []
+        
+        with conn:
+            with conn.cursor() as cur:
+                for nameCell in ws.rows[0][1:]:
+                    name = nameCell.value
+                    cur.execute("SELECT player_id FROM players WHERE name = %s",(name,))
+                    playerID = cur.fetchone()
+                    if playerID is not None:
+                        playerIDs.append(playerID[0])
+                    else:
+                        cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s) RETURNING player_id;",
+                        (name,datetime.date.today()))
+                        playerID = cur.fetchone()
+                        playerIDs.append(playerID[0])
+        
+        with conn:
+            with conn.cursor() as cur:
+                for game in ws.rows[1:]:
+                    cur.execute("INSERT INTO games (date) VALUES (%s) RETURNING game_id",(game[0].value,))
+                    gameID = cur.fetchone()[0]
+                    scoreData = []
+                    for col,pID in enumerate(playerIDs,1):
+                        points = game[col].value
+                        if points is not None:
+                            scoreData.append((pID,gameID,points))
+                    cur.executemany("INSERT INTO scores (player_ID,game_ID,points) VALUES (%s,%s,%s)",scoreData)
+                    
+        plist = 'data loaded.'
+    
+    return render_template('excel.html',p1=plist)
              
-def content_type(path):
-    """Return a guess at the mime type for this path
-    based on the file extension"""
-    
-    name, ext = os.path.splitext(path)
-    
-    if ext in MIME_TABLE:
-        return MIME_TABLE[ext]
-    else:
-        return "application/octet-stream"
 
 def serverApp(environ, start_response):
     """WSGI application to switch between different applications
     based on the request URI"""
 
-    if environ['PATH_INFO'].startswith(STATIC_URL_PREFIX):
-        return static_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/':
-        return home_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/favicon.ico':
-        return favicon_app(environ, start_response)
     elif environ['PATH_INFO'] == '/players':
         return players_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/excel':
-        return excelUpload_app(environ, start_response)
     elif environ['PATH_INFO'] == '/score':
         return score_app(environ, start_response)
-    elif environ['PATH_INFO'] == '/data.json':
-        return data_app(environ, start_response)
+
     else:
         return show_404_app(environ, start_response)
         

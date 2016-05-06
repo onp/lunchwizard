@@ -8,7 +8,7 @@ playerDef = """
 
         player_id      serial         PRIMARY KEY,
         name           varchar(30)    UNIQUE NOT NULL,
-        join_date      date
+        join_date      timestamp
 
     );
 """
@@ -17,7 +17,7 @@ gamesDef = """
     CREATE TABLE games (
 
         game_id        serial         PRIMARY KEY,
-        date           date
+        date           timestamp
 
     );
 """
