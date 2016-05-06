@@ -5,7 +5,7 @@ from dbConnect import dbConnect
 import datetime
 import cgi
 import json
-from flask import Flask
+from flask import Flask,jsonify
 
 app = Flask(__name__)
 
@@ -21,6 +21,38 @@ def index():
     
     return content
 
+@app.route("/data.json")
+    conn = dbConnect()
+    
+    date1 = datetime.date(2015,8,1)
+    date2 = datetime.date(2015,11,4)
+    
+    plist = None
+    data = None
+    
+    with conn:
+        with conn.cursor() as cur:
+            #get players that were active in the time period
+            cur.execute("""SELECT DISTINCT player_id
+            FROM datedScores
+            WHERE date > %s
+            AND date < %s """,
+            (date1,date2))
+            
+            plist = [x[0] for x in cur.fetchall()]
+        
+        with conn.cursor() as cur:
+            #get scores for active players
+            data = {}
+            for p in plist:
+                cur.execute("""SELECT date, points
+                FROM datedScores
+                WHERE player_id = %s """,
+                (p,))
+                data[p] = cur.fetchall()
+
+    return jsonify(**data)
+    
 
 
 STATIC_URL_PREFIX = '/static/'
@@ -297,7 +329,6 @@ def data_app(environ,start_response):
     
     plist = None
     data = None
-    
     
     with conn:
         with conn.cursor() as cur:
