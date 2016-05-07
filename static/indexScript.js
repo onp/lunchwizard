@@ -5,9 +5,6 @@ var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-// Parser for dates coming from the json data.
-var parseDate = d3.time.format("%Y-%m-%d").parse;
-
 // scales (used to project data domains onto axes.)
 var x = d3.time.scale()
     .range([0, width]);
@@ -70,7 +67,7 @@ d3.json("data.json", function(error, data) {
     return {
       name: name,
       values: data[name].map(function(d) {
-          var date = parseDate(d[0])
+          var date = new Date(d[0])
           minDate = d3.min([date,minDate]);
           maxDate = d3.max([date,maxDate]);
         return {date: date, points: +d[1]};

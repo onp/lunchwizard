@@ -40,7 +40,7 @@ scoresDef = """
 datedScores = """
     CREATE VIEW datedScores AS
     SELECT * FROM games INNER JOIN scores
-    ON games.game_id = scores.game_id
+    USING (game_id)
 """
     
 
