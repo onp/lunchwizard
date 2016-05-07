@@ -51,7 +51,7 @@ cur = conn.cursor()
 cur.execute(playerDef)
 cur.execute(gamesDef)
 cur.execute(scoresDef)
-cur.execute(datedScores)
+#cur.execute(datedScores)
 
 conn.commit()
 
