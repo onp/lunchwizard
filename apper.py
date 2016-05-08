@@ -124,15 +124,8 @@ def players():
 
     
 @app.errorhandler(404)
-def page_not_found(environ, start_response):
+def page_not_found():
     """Serve 404"""
+    return render_template('404.html')
     
-    data = b"404\n\n page not found."
-    data += b"\n path: " + environ['PATH_INFO'].encode('utf8')
-    data += b"\n script: " + environ['SCRIPT_NAME'].encode('utf8')
     
-    start_response("200 OK", [
-        ("Content-Type", "text/plain"),
-        ("Content-Length", str(len(data)))
-    ])
-    return [data]
