@@ -22,9 +22,11 @@
     
     </form>
     
-    $p1
-    
-    
+    <ul id="players">
+    {% for player in plist %}
+        <li> {{ player }}
+    {% endfor %}
+    </ul>
     
 </div>
 </body>
