@@ -1,58 +1,51 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta charset="utf-8" /> 
+{% block head %}
 
-<html>
-<head>
-<title>Most Excellent Wizard League</title>
+    <script type="application/javascript" src="/static/lib/d3.js"></script>
 
-<link rel="shortcut icon" href="/static/favicon.ico">
+    <style>
+    
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
 
-<link rel="stylesheet" href="/static/style.css" type="text/css" />
-<script type="application/javascript" src="/static/lib/d3.js"></script>
+        .x.axis path {
+          display: none;
+        }
 
-<style>
+        .line {
+          fill: none;
+          stroke: steelblue;
+          stroke-width: 1.5px;
+        }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+        rect.pane {
+          cursor: move;
+          fill: none;
+          pointer-events: all;
+        }
+        
+    </style>
 
-.x.axis path {
-  display: none;
-}
+{% endblock %}
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
 
-rect.pane {
-  cursor: move;
-  fill: none;
-  pointer-events: all;
-}
+{% block content %}
 
-</style>
-
-</head>
-
-<body>
-<div id="content">
-	<h1>WIZARD</h1>
-	
+	<h1>WIZARD</h1>	
     <div id="plt"></div>
     
-    
-    
-    
-</div>
+{% endblock %}
 
 
-<script type="application/javascript" src="/static/indexScript.js"></script>
+{% block footscript}
 
-</body>
+    <script type="application/javascript" src="/static/indexScript.js"></script>
+    
+{% endblock %}
+
+

@@ -1,18 +1,7 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"
-<meta charset="utf-8" /> 
+{% block content %}
 
-<html>
-<head>
-<title>Most Excellent Wizard League</title>
-
-<link rel="stylesheet" href="/static/style.css" type="text/css" />
-
-</head>
-
-<body>
-<div id="content">
 	<h1>WIZARD</h1>
 	
     <form method="post">
@@ -28,5 +17,4 @@
     {% endfor %}
     </ul>
     
-</div>
-</body>
+{% endblock %}
