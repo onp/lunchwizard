@@ -13,15 +13,12 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 
 @app.route("/")
 def index():
-
-    h = open ("index.html","rb")
-    content = h.read()
-    h.close()
-    
-    return content
+    """Homepage."""
+    return render_template('index.html')
 
 @app.route("/data.json")
 def data():
+    """Score data for 2015-8-1 to 2015-11-4."""
     conn = dbConnect()
     
     date1 = datetime.date(2015,8,1)
@@ -102,7 +99,8 @@ def players():
     
     conn = dbConnect()
     
-    if request.method == 'POST':
+    # adding players to the list
+    if request.method == 'POST': 
     
         np  = request.form['p1']
         
@@ -112,7 +110,7 @@ def players():
                     cur.execute("INSERT INTO players (name,join_date) VALUES (%s,%s);",
                             (np,datetime.date.today()))
 
-    
+    # returning the page with the list of players
     h = open ("templates/players.html")
     content_template = Template(h.read())
     h.close()
@@ -120,103 +118,16 @@ def players():
     with conn:
         with conn.cursor() as cur:
             cur.execute("SELECT name FROM players;")
-            plist = cur.fetchall()
+            plist = [p[0] for p in cur.fetchall()] #players are returned as tuples
 
     return render_template('players.html', plist=plist)
-             
 
-def serverApp(environ, start_response):
-    """WSGI application to switch between different applications
-    based on the request URI"""
-
-    if environ['PATH_INFO'] == '/score':
-        return score_app(environ, start_response)
-
-    else:
-        return show_404_app(environ, start_response)
-
-       
     
-def score_app(environ, start_response):
-    conn = dbConnect()
-    
-   # h = open ("templates/score.html")
-   # content_template = Template(h.read())
-   # h.close()
-   # 
-   # date1 = datetime.date(2015,8,1)
-   # date2 = datetime.date(2015,11,4)
-   # 
-   # plist = "failed"
-   # 
-   # glist = "failed"
-   # 
-   # slist = "failed"
-   # 
-   # with conn:
-   #     with conn.cursor() as cur:
-   #         #get players that were active in the time period
-   #         cur.execute("""SELECT DISTINCT player_id
-   #         FROM scores INNER JOIN games
-   #         ON (scores.game_id = games.game_id)
-   #         WHERE games.date > %s
-   #         AND games.date < %s """,
-   #         (date1,date2))
-   #         
-   #         plist = [x[0] for x in cur.fetchall()]
-   #         
-   #     with conn.cursor() as cur:
-   #         #get games that happened in the time period
-   #         cur.execute("""SELECT game_id
-   #         FROM games
-   #         WHERE games.date > %s
-   #         AND games.date < %s """,
-   #         (date1,date2))
-   #         
-   #         glist = [x[0] for x in cur.fetchall()]
-   #         
-   #     with conn.cursor() as cur:
-   #         #get scores for active players
-   #         cur.execute("""SELECT players.name, scores.points
-   #         FROM players LEFT OUTER JOIN scores
-   #         ON (players.player_id = scores.player_id)
-   #         WHERE game_id = %s """,
-   #         (glist[0],))
-   #         
-   #         #pgList view setup
-   #         """CREATE VIEW pgList AS
-   #         SELECT * FROM games CROSS JOIN players
-   #         """
-   #         
-   #         #score for every player in every game, even if they didn't play
-   #         """SELECT pgList.name, scores.points, scores.game_id 
-   #         FROM pgList LEFT OUTER JOIN scores
-   #         ON (pgList.player_id = scores.player_id
-   #         AND pgList.game_id = scores.game_id)
-   #         """
-   #         
-   #         slist = cur.fetchall()
-   # 
-   # content = content_template.substitute(_players=str(plist),_games=str(glist),_scores=str(slist))
-   # 
-   # content = content.encode("utf8")
-    
-    h = open ("templates/score.html","rb")
-    content = h.read()
-    h.close()
-    
-    headers = [('content-type', 'text/html')]
-    start_response('200 OK', headers)
-    
-    conn.close()
-    
-    return [content]
-    
-    
-def show_404_app(environ, start_response):
+@app.errorhandler(404)
+def page_not_found(environ, start_response):
     """Serve 404"""
     
-    data = b"404\n\n File not found."
+    data = b"404\n\n page not found."
     data += b"\n path: " + environ['PATH_INFO'].encode('utf8')
     data += b"\n script: " + environ['SCRIPT_NAME'].encode('utf8')
     
