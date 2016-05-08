@@ -121,6 +121,17 @@ def players():
             plist = [p[0] for p in cur.fetchall()] #players are returned as tuples
 
     return render_template('players.html', plist=plist)
+    
+@app.route("/scoreEntry",methods=['POST','GET'])
+def scoreEntry():
+    """Get scores for a new game."""
+    
+    data = [
+        {"players":["Sean","Calvin","Omer","Farah","Jamie"]},
+        {"players":["Oskar","Jeff","Spencer","Burkeley","Dave"}
+    ]
+
+    return render_template("scoreEntry.html", leagues=data)
 
     
 @app.errorhandler(404)

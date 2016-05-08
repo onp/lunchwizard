@@ -1,0 +1,31 @@
+# Rules
+
+## Gameplay
+
+1. Once a card touches the table, it cannot be taken back unless it was an illegal move.
+
+
+## Scoring
+
+Points are awarded to participants in a game based on the following table:
+
+| # players | 1st | 2nd | 3rd | 4th | 5th | 6th | 7th |
+=======================================================
+| 3 players |  6  |  4  |  1  |     |     |     |     |
+| 4 players |  6  |  5  |  3  |  1  |     |     |     |
+| 5 players |  6  |  5  |  4  |  3  |  1  |     |     |
+| 6 players |  6  |  5  |  4  |  3  |  2  |  1  |     |
+| 7 players |  7  |  6  |  5  |  4  |  3  |  2  |  1  |
+
+
+## Monthly Contest
+
+1. The scores from a game only count towards monthly averages if all players are in the same league.
+2. Any recorded game (regardless of participating players) counts towards a player's monthly games played.
+3. The player with the highest score in the upper league receives the Wizard Trophy.
+4. The player with the lowest score in the lower league receives the Jester of Shame.
+5. To receive either the Wizard or Jester trophies, a player must have at least 10 games played.
+6. The two lowest scoring players in the upper league are demoted to the lower league for the following month.
+7. The two highest scoring players in the lower league are promoted to the upper league for the following month.  Players must have at least 10 games played to be eligible for promotion.
+8. New players join the lower league.  Leagues are to be rebalanced at the end of every month by increasing/decreasing the number of players promoted/demoted.
+

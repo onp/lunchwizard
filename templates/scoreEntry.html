@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    
+    
+    {% for l in leagues %}
+        <ul class="league-block">
+            {% for p in l.players %}
+            <li class="player-score-entry">
+                <span class="player-name">{{p.name}}</span>
+                <input class="score">
+            </li>
+            {% endfor %}
+        </ul>
+    
+    {% endfor %}
+    
+    
+
+
+{% endblock %}

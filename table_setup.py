@@ -19,13 +19,13 @@ gamesDef = """
 
         game_id        serial         PRIMARY KEY,
         date           timestamp
+        league_game    boolean
 
     );
 """
 
 scoresDef = """
     CREATE TABLE scores (
-
         player_id      integer        REFERENCES players,
         game_id        integer        REFERENCES games,
         score          smallint,
@@ -33,7 +33,16 @@ scoresDef = """
         tiebreak       smallint,
         
         PRIMARY KEY(game_id,player_id)
+    );
+"""
 
+monthlyConfig = """
+    CREATE TABLE monthlyConfig (
+        month_id       serial          PRIMARY KEY,
+        firstDay       timestamp,
+        wizard         integer         REFERENCES players,
+        jester         integer         REFERENCES players,
+        league_members JSON
     );
 """
 
