@@ -128,7 +128,7 @@ def scoreEntry():
     
     data = [
         {"players":["Sean","Calvin","Omer","Farah","Jamie"]},
-        {"players":["Oskar","Jeff","Spencer","Burkeley","Dave"}
+        {"players":["Oskar","Jeff","Spencer","Burkeley","Dave"]}
     ]
 
     return render_template("scoreEntry.html", leagues=data)
