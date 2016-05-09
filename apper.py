@@ -127,7 +127,7 @@ def scoreEntry():
     """Get scores for a new game."""
     
     data = [
-        {"players":[{"name":"Sean"},{"name":"Calvin"},{"name":"Omer"},{"name":"Farah"},{"name":"Jamie"]},
+        {"players":[{"name":"Sean"},{"name":"Calvin"},{"name":"Omer"},{"name":"Farah"},{"name":"Jamie"}]},
         {"players":[{"name":"Oskar"},{"name":"Jeff"},{"name":"Spencer"},{"name":"Burkeley"},{"name":"Dave"}]}
     ]
 
