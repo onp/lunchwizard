@@ -7,7 +7,7 @@ d3.json("scoreTableData.json", function(error, data) {
   
   var players = data["players"]
   var np = players.length //number of players
-  var kp = players.keys()
+  var kp = d3.keys(players)
   var ip = {}
   for (var i = 0; i < np; i++){
     ip[kp[i]] = i
@@ -15,13 +15,13 @@ d3.json("scoreTableData.json", function(error, data) {
   
   var games = data["games"]
   var ng = games.length   //number of games
-  var kg = games.keys()
+  var kg = d3.keys(games)
   var ig = {}
   for (var i = 0; i < ng; i++){
     ig[kg[i]] = i
   }
   
-  Object.keys(games).map(
+  d3.keys(games).map(
     function(game_id){
         games[game_id] = Date(games[game_id])
     }
