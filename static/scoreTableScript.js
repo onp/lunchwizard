@@ -17,7 +17,7 @@ d3.json("scoreTableData.json", function(error, data) {
     games.map(
         function(v,i){
             gameMap[v] = i;
-            v[1] = Date[v[1]];
+            v[1] = new Date(v[1]);
         }
     )
 
@@ -34,7 +34,8 @@ d3.json("scoreTableData.json", function(error, data) {
     }
   
     for (var i = 0; i < scores.length; i++){
-        sc = scores[i]
+        var sc = scores[i]
+        console.log(sc)
         scoreTable[gameMap[sc[0]]][playerMap[sc[1]]] = sc[2]
     }
   
