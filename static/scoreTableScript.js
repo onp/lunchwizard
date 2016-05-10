@@ -2,7 +2,7 @@
 
 
 // collect data and draw graph
-d3.json("data.json", function(error, data) {
+d3.json("scoreTableData.json", function(error, data) {
   if (error) throw error;
   
   var players = data["players"]
