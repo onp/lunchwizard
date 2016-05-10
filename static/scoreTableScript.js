@@ -9,14 +9,16 @@ d3.json("scoreTableData.json", function(error, data) {
     //map each playerID to an ordered value
     var playerMap = {}
     players.map(
-        function(v,i){playerMap[v] = i}
+        function(v,i){
+            playerMap[v[0]] = i
+        }
     )
   
     var games = data["games"]
     var gameMap = {}
     games.map(
         function(v,i){
-            gameMap[v] = i;
+            gameMap[v[0]] = i;
             v[1] = new Date(v[1]);
         }
     )
