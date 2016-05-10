@@ -6,18 +6,18 @@ d3.json("scoreTableData.json", function(error, data) {
   if (error) throw error;
   
   var players = data["players"]
-  var np = length(players) //number of players
+  var np = players.length //number of players
   var kp = players.keys()
   var ip = {}
-  for (var i = 0; i < length(kp); i++){
+  for (var i = 0; i < np; i++){
     ip[kp[i]] = i
   }
   
   var games = data["games"]
-  var ng = length(games)   //number of games
+  var ng = games.length   //number of games
   var kg = games.keys()
   var ig = {}
-  for (var i = 0; i < length(kg); i++){
+  for (var i = 0; i < ng; i++){
     ig[kg[i]] = i
   }
   
@@ -31,11 +31,11 @@ d3.json("scoreTableData.json", function(error, data) {
   
   //create an array of scores [game#][player#]
   scoreTable = []
-  for (var i = 0; i < length(kg); i++){
+  for (var i = 0; i < ng; i++){
     scoreTable.push([])
   }
   
-  for (var i = 0; i < length(scores); i++){
+  for (var i = 0; i < scores.length; i++){
     sc = scores[i]
     scoreTable[ig[sc[0]]][ip[sc[1]]] = sc[2]
   }
