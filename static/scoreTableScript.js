@@ -37,7 +37,7 @@ d3.json("scoreTableData.json", function(error, data) {
   
   for (var i = 0; i < length(scores); i++){
     sc = scores[i]
-    scoreTable[ig[sc[0]][ip[sc[1]] = sc[2]
+    scoreTable[ig[sc[0]]][ip[sc[1]]] = sc[2]
   }
   
   console.log(scoreTable)
