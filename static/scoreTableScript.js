@@ -3,44 +3,42 @@
 
 // collect data and draw graph
 d3.json("scoreTableData.json", function(error, data) {
-  if (error) throw error;
+    if (error) throw error;
   
-  var players = data["players"]
-  var np = players.length //number of players
-  var kp = d3.keys(players)
-  var ip = {}
-  for (var i = 0; i < np; i++){
-    ip[kp[i]] = i
-  }
+    var players = data["players"]
+    //map each playerID to an ordered value
+    var playerMap = {}
+    players.map(
+        function(v,i){playerMap[v] = i}
+    )
   
-  var games = data["games"]
-  var ng = games.length   //number of games
-  var kg = d3.keys(games)
-  var ig = {}
-  for (var i = 0; i < ng; i++){
-    ig[kg[i]] = i
-  }
+    var games = data["games"]
+    var gameMap = {}
+    games.map(
+        function(v,i){
+            gameMap[v] = i;
+            v[1] = Date[v[1]];
+        }
+    )
+
+    console.log(games)
+    console.log(players)
+    
+    var scores = data["scores"]
   
-  d3.keys(games).map(
-    function(game_id){
-        games[game_id] = Date(games[game_id])
+  
+    //create an array of scores [game#][player#]
+    scoreTable = []
+    for (var i = 0; i < games.length; i++){
+        scoreTable.push([])
     }
-  )
   
-  var scores = data["scores"]
+    for (var i = 0; i < scores.length; i++){
+        sc = scores[i]
+        scoreTable[gameMap[sc[0]]][playerMap[sc[1]]] = sc[2]
+    }
   
-  //create an array of scores [game#][player#]
-  scoreTable = []
-  for (var i = 0; i < ng; i++){
-    scoreTable.push([])
-  }
-  
-  for (var i = 0; i < scores.length; i++){
-    sc = scores[i]
-    scoreTable[ig[sc[0]]][ip[sc[1]]] = sc[2]
-  }
-  
-  console.log(scoreTable)
+    console.log(scoreTable)
   
   
   

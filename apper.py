@@ -72,12 +72,12 @@ def scoreTableDataFetcher():
         with conn.cursor() as cur:
             # get a list of all games
             cur.execute("SELECT game_id, date FROM games")
-            games = {d[0]:d[1] for d in cur.fetchall()}
+            games = cur.fetchall()
         
         with conn.cursor() as cur:
             # get a list of all players
             cur.execute("SELECT player_id, name FROM players")
-            players = {d[0]:d[1] for d in cur.fetchall()}
+            players = cur.fetchall()
             
         with conn.cursor() as cur:
             # get a list of all scores
