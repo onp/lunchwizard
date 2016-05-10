@@ -58,12 +58,15 @@ svg.append("g") // element to hold y axis
 d3.json("data.json", function(error, data) {
   if (error) throw error;
 
-  color.domain(d3.keys(data));
+  //d3.keys(data) is the array of player IDs
+  color.domain(d3.keys(data));  //sets the colorset domain to the playerIDs
   
   var minDate;
   var maxDate;
 
-  var players = color.domain().map(function(name) {
+  // for each player, creates an object with their name and scores.
+  // also finds determines the first and last date in the dataset.
+  var players = d3.keys(data).map(function(name) {
     return {
       name: name,
       values: data[name].map(function(d) {

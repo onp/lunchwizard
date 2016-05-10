@@ -14,10 +14,21 @@ playerDef = """
     );
 """
 
+monthlyConfig = """
+    CREATE TABLE monthlyConfig (
+        month_id       serial          PRIMARY KEY,
+        firstDay       timestamp,
+        wizard         integer         REFERENCES players,
+        jester         integer         REFERENCES players,
+        league_members JSON
+    );
+"""
+
 gamesDef = """
     CREATE TABLE games (
 
         game_id        serial         PRIMARY KEY,
+        month_id       integer        REFERENCES monthlyConfig,
         date           timestamp
         league_game    boolean
 
@@ -36,15 +47,7 @@ scoresDef = """
     );
 """
 
-monthlyConfig = """
-    CREATE TABLE monthlyConfig (
-        month_id       serial          PRIMARY KEY,
-        firstDay       timestamp,
-        wizard         integer         REFERENCES players,
-        jester         integer         REFERENCES players,
-        league_members JSON
-    );
-"""
+
 
 datedScores = """
     CREATE VIEW datedScores AS
@@ -58,9 +61,10 @@ conn = dbConnect()
 cur = conn.cursor()
 
 cur.execute(playerDef)
+cur.execute(monthlyConfig)
 cur.execute(gamesDef)
 cur.execute(scoresDef)
-#cur.execute(datedScores)
+cur.execute(datedScores)
 
 conn.commit()
 

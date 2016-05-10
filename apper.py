@@ -18,7 +18,17 @@ def index():
 
 @app.route("/data.json")
 def data():
-    """Score data for 2015-8-1 to 2015-11-4."""
+    """Score data for 2015-8-1 to 2015-11-4.
+    
+    data is of format:
+    
+    { playerID(int):[
+         [gameTime(str), score(int)]
+      ]
+    }
+    
+    """
+    
     conn = dbConnect()
     
     date1 = datetime.date(2015,8,1)
@@ -47,9 +57,42 @@ def data():
                 WHERE player_id = %s """,
                 (p,))
                 data[p] = cur.fetchall()
+                
+
 
     return jsonify(data)
     
+@app.route("/scoreTableData.json")
+def scoreTableDataFetcher():
+    """Returns list of games, with score for each player."""
+    
+    conn = db.Connect()
+    
+    with conn:
+        with conn.cursor() as cur:
+            # get a list of all games
+            cur.execute("SELECT game_id, date FROM games")
+            games = {d[0]:d[1] for d in cur.fetchall()}
+        
+        with conn.cursor() as cur:
+            # get a list of all players
+            cur.execute("SELECT player_id, name FROM players")
+            players = {d[0]:d[1] for d in cur.fetchall()}
+            
+        with conn.cursor() as cur:
+            # get a list of all scores
+            cur.execute("SELECT game_id, player_id, score FROM scores")
+            scores = cur.fetchall()
+            
+    data = {"games":games,"players":players,"scores":scores}
+
+    return jsonify(data)
+    
+@app.route("/scoreTable")
+def scoreTable():
+    """Raw table of all scores"""
+    return render_template("scoreTable.html")
+
 @app.route("/excel",methods=['POST','GET'])
 def excelUpload():
     """Handle excel data file uploads"""
