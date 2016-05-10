@@ -66,7 +66,7 @@ def data():
 def scoreTableDataFetcher():
     """Returns list of games, with score for each player."""
     
-    conn = db.Connect()
+    conn = dbConnect()
     
     with conn:
         with conn.cursor() as cur:
