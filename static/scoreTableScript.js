@@ -44,6 +44,6 @@ d3.json("scoreTableData.json", function(error, data) {
   
   
   
-}
+})
   
   
