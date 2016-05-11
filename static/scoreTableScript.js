@@ -22,26 +22,37 @@ d3.json("scoreTableData.json", function(error, data) {
             v[1] = new Date(v[1]);
         }
     )
-
-    console.log(games)
-    console.log(players)
     
     var scores = data["scores"]
   
   
     //create an array of scores [game#][player#]
-    scoreTable = []
+    scoreArray = []
     for (var i = 0; i < games.length; i++){
-        scoreTable.push([])
+        scoreArray.push([])
     }
   
     for (var i = 0; i < scores.length; i++){
         var sc = scores[i]
-        console.log(sc)
-        scoreTable[gameMap[sc[0]]][playerMap[sc[1]]] = sc[2]
+        scoreArray[gameMap[sc[0]]][playerMap[sc[1]]] = sc[2]
     }
   
-    console.log(scoreTable)
+    console.log(scoreArray)
+    
+
+    var scoreTable = document.createElement('table');
+    for (var i = 0; i < games.length; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < players.length; j++) {
+            var cell = document.createElement('td');
+            cell.textContent = scoreArray[i][j];
+            row.appendChild(cell);
+        }
+        scoreTable.appendChild(row);
+    }
+
+    document.getElementById("content").append(scoreTable)
+
   
   
   
