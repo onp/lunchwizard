@@ -23,10 +23,7 @@ d3.json("scoreTableData.json", function(error, data) {
         }
     )
     
-    document.dateTest = games
-    
     var scores = data["scores"]
-  
   
     //create an array of scores [game#][player#]
     scoreArray = []
@@ -38,8 +35,6 @@ d3.json("scoreTableData.json", function(error, data) {
         var sc = scores[i]
         scoreArray[gameMap[sc[0]]][playerMap[sc[1]]] = sc[2]
     }
-  
-    console.log(scoreArray)
     
 
     var scoreTable = document.createElement('table');
@@ -53,7 +48,7 @@ d3.json("scoreTableData.json", function(error, data) {
     for (var i = 0; i < games.length; i++) {
         var row = document.createElement('tr');
         var cell = document.createElement('th');
-        cell.textContent = games[i][1].getUTCstring()
+        cell.textContent = games[i][1].toDateString()
         row.appendChild(cell);
         for (var j = 0; j < players.length; j++) {
             var cell = document.createElement('td');
