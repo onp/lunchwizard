@@ -41,8 +41,18 @@ d3.json("scoreTableData.json", function(error, data) {
     
 
     var scoreTable = document.createElement('table');
+    var row = document.createElement('tr');
+    row.appendChild(document.createElement('th'));
+    for (var i = 0; j < players.length; i++){
+        var cell = document.createElement('th');
+        cell.textContent = players[i][1]
+    }
+    scoreTable.appendChild(row);
     for (var i = 0; i < games.length; i++) {
         var row = document.createElement('tr');
+        var cell = document.createElement('th');
+        cell.textContent = games[i][1].getUTCstring()
+        row.appendChild(cell);
         for (var j = 0; j < players.length; j++) {
             var cell = document.createElement('td');
             cell.textContent = scoreArray[i][j];
