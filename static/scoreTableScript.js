@@ -51,7 +51,7 @@ d3.json("scoreTableData.json", function(error, data) {
         scoreTable.appendChild(row);
     }
 
-    document.getElementById("content").append(scoreTable)
+    document.getElementById("content").appendChild(scoreTable)
 
   
   
