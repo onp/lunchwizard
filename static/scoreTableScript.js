@@ -23,6 +23,8 @@ d3.json("scoreTableData.json", function(error, data) {
         }
     )
     
+    document.dateTest = games
+    
     var scores = data["scores"]
   
   
