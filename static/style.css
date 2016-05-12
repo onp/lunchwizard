@@ -1,3 +1,8 @@
+@font-face{
+    font-family: "BlackChancery";
+    src: url(static/BLKCHCRY.ttf) format("truetype");
+}
+
 body{
 	background-color:white;
 }
@@ -5,13 +10,13 @@ body{
 #content{
 	margin-left:auto;
 	margin-right:auto;
-	width:800px;
+	width:1000px;
 }
 
 h1{
 	text-align: center;
 	color: purple;
-	font-family: sans-serif;
+	font-family: "BlackChancery",cursive;
 	font-size: 80px;
 	font-weight: lighter;
 }

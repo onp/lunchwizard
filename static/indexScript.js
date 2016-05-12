@@ -2,7 +2,7 @@
 
 // Establish dimensions and margins for the plot
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
+    width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 // scales (used to project data domains onto axes.)

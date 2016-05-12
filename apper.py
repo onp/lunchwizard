@@ -92,6 +92,11 @@ def scoreTableDataFetcher():
 def scoreTable():
     """Raw table of all scores"""
     return render_template("scoreTable.html")
+    
+@app.route("/gameList")
+def gameList():
+    """List of all games with their results"""
+    return render_template("gameList.html")
 
 @app.route("/excel",methods=['POST','GET'])
 def excelUpload():

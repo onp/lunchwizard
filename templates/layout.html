@@ -13,7 +13,15 @@
     {% block head %}{% endblock %}
     
   <body>
-  
+    <div id="header-bar">
+        <a href="{{ url_for('index') }}">WIZARD</a>
+        <a href="{{ url_for('index') }}">Game List</a>
+        <a href="{{ url_for('index') }}">Score Table</a>
+        <a href="{{ url_for('index') }}">Excel Upload</a>
+        <a href="{{ url_for('index') }}">Players</a>
+            
+        </div>
+    </div>
     <div id="content">
       {% block content %}{% endblock %}
     </div>
