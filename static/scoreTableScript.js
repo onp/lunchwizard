@@ -40,7 +40,7 @@ d3.json("scoreTableData.json", function(error, data) {
     var scoreTable = document.createElement('table');
     var row = document.createElement('tr');
     row.appendChild(document.createElement('th'));
-    for (var i = 0; j < players.length; i++){
+    for (var i = 0; i < players.length; i++){
         var cell = document.createElement('th');
         cell.textContent = players[i][1]
         row.appendChild(cell)
