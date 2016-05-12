@@ -1,0 +1,17 @@
+td{
+    text-align:center;
+}
+
+th{
+    background-color:mediumpurple;
+}
+
+th.playerName{
+    width:50px;
+    text-align:center;
+    background:mediumpurple;
+}
+
+th.gameDate{
+    width:140px;
+}

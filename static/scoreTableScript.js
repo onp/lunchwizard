@@ -43,6 +43,7 @@ d3.json("scoreTableData.json", function(error, data) {
     for (var i = 0; i < players.length; i++){
         var cell = document.createElement('th');
         cell.textContent = players[i][1]
+        cell.classList.add("playerName")
         row.appendChild(cell)
     }
     scoreTable.appendChild(row);
@@ -50,6 +51,7 @@ d3.json("scoreTableData.json", function(error, data) {
         var row = document.createElement('tr');
         var cell = document.createElement('th');
         cell.textContent = games[i][1].toDateString()
+        cell.classList.add("gameDate")
         row.appendChild(cell);
         for (var j = 0; j < players.length; j++) {
             var cell = document.createElement('td');
