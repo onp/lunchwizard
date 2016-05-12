@@ -64,7 +64,7 @@ def data():
     
 @app.route("/scoreTableData.json")
 def scoreTableDataFetcher():
-    """Returns list of games, with score for each player."""
+    """Returns all scores for each player, along with game and player lists."""
     
     conn = dbConnect()
     
@@ -92,6 +92,32 @@ def scoreTableDataFetcher():
 def scoreTable():
     """Raw table of all scores"""
     return render_template("scoreTable.html")
+    
+@app.route("player/<int:player_id>")
+def player(player_id):
+    """Show profile page for a player."""
+    
+    conn = dbConnect()
+    
+    with conn:
+        with cur = conn.cursor():
+            cur.execute("SELECT name FROM players WHERE player_id = %s", (player_id,))
+        name = cur.fetchone()
+    
+    return render_template("player.html", name=name)
+
+@app.route("game/<int:game_id>")
+def game(game_id):
+    """Show summary page for a game."""
+    
+    conn = dbConnect()
+    
+    with conn:
+        with cur = conn.cursor():
+            cur.execute("SELECT date FROM games WHERE game_id = %s", (game_id,))
+        name = cur.fetchone()
+    
+    return render_template("game.html", date=date)
     
 @app.route("/gameList")
 def gameList():

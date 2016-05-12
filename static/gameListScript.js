@@ -42,23 +42,16 @@ d3.json("scoreTableData.json", function(error, data) {
     row.appendChild(document.createElement('th'));
     for (var i = 0; i < players.length; i++){
         var cell = document.createElement('th');
+        cell.textContent = players[i][1]
         cell.classList.add("playerName")
-        var plink = document.createElement('a');
-        plink.setAttribute('href',"player/"+players[i][0])
-        plink.textContent = players[i][1]
-        cell.appendChild(plink)
         row.appendChild(cell)
     }
     scoreTable.appendChild(row);
     for (var i = 0; i < games.length; i++) {
         var row = document.createElement('tr');
         var cell = document.createElement('th');
-        cell.textContent = 
+        cell.textContent = games[i][1].toDateString()
         cell.classList.add("gameDate")
-        var glink = document.createElement('a');
-        glink.setAttribute('href','game/'+games[i][0])
-        glink.textContent = games[i][1].toDateString()
-        cell.appendChild(glink)
         row.appendChild(cell);
         for (var j = 0; j < players.length; j++) {
             var cell = document.createElement('td');
