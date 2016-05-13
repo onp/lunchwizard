@@ -100,7 +100,7 @@ def player(player_id):
     conn = dbConnect()
     
     with conn:
-        with cur = conn.cursor():
+        with conn.cursor() as cur:
             cur.execute("SELECT name FROM players WHERE player_id = %s", (player_id,))
         name = cur.fetchone()
     
@@ -113,7 +113,7 @@ def game(game_id):
     conn = dbConnect()
     
     with conn:
-        with cur = conn.cursor():
+        with conn.cursor() as cur:
             cur.execute("SELECT date FROM games WHERE game_id = %s", (game_id,))
         name = cur.fetchone()
     
