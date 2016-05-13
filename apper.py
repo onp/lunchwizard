@@ -93,12 +93,12 @@ def scoreTable():
     """Raw table of all scores"""
     return render_template("scoreTable.html")
     
-@app.route("player/<int:player_id>")
+@app.route("/player/<int:player_id>")
 def player(player_id):
     """Show profile page for a player."""
-    
+
     conn = dbConnect()
-    
+
     with conn:
         with conn.cursor() as cur:
             cur.execute("SELECT name FROM players WHERE player_id = %s", (player_id,))
@@ -106,7 +106,7 @@ def player(player_id):
     
     return render_template("player.html", name=name)
 
-@app.route("game/<int:game_id>")
+@app.route("/game/<int:game_id>")
 def game(game_id):
     """Show summary page for a game."""
     
