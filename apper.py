@@ -102,7 +102,7 @@ def player(player_id):
     with conn:
         with conn.cursor() as cur:
             cur.execute("SELECT name FROM players WHERE player_id = %s", (player_id,))
-            name = cur.fetchone()
+            name = cur.fetchone()[0]
     
     return render_template("player.html", name=name)
 
@@ -115,7 +115,7 @@ def game(game_id):
     with conn:
         with conn.cursor() as cur:
             cur.execute("SELECT date FROM games WHERE game_id = %s", (game_id,))
-            name = cur.fetchone()
+            date = cur.fetchone()[0]
     
     return render_template("game.html", date=date)
     
