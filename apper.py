@@ -1,4 +1,3 @@
-from string import Template
 from dbConnect import dbConnect
 import datetime
 from flask import Flask, jsonify, request, render_template
@@ -192,11 +191,6 @@ def players():
                     cur.execute("""INSERT INTO players (name,join_date)
                                 VALUES (%s,%s);""",
                                 (np, datetime.date.today()))
-
-    # returning the page with the list of players
-    h = open("templates/players.html")
-    content_template = Template(h.read())
-    h.close()
 
     with conn:
         with conn.cursor() as cur:
