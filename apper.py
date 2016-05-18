@@ -194,7 +194,7 @@ def players():
 
     with conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT name, player_id FROM players;")
+            cur.execute("SELECT player_id, name FROM players;")
             plist = cur.fetchall()  # data returned as tuples
 
     return render_template('players.html', plist=plist)
