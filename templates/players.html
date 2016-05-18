@@ -3,18 +3,22 @@
 {% block content %}
 
 	<h1>WIZARD</h1>
-	
+
     <form method="post">
-    
+
         <input type="text" name="p1">
         <input type="submit">
-    
+
     </form>
-    
+
     <ul id="players">
     {% for player in plist %}
-        <li> {{ player }}
+        <li>
+			<a href="{{ url_for('player', player_id=player[0]) }}">
+				{{ player[1] }}
+			</a>
+		</li>
     {% endfor %}
     </ul>
-    
+
 {% endblock %}

@@ -166,7 +166,7 @@ def excelUpload():
                         if points is not None:
                             scoreData.append((pID, gameID, points))
                     cur.executemany("""INSERT INTO
-                                    scores (player_ID,game_ID,points)
+                                    scores (player_id,game_id,points)
                                     VALUES (%s,%s,%s)""",
                                     scoreData)
 
@@ -194,8 +194,8 @@ def players():
 
     with conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT name FROM players;")
-            plist = [p[0] for p in cur.fetchall()]  # data returned as tuples
+            cur.execute("SELECT name, player_id FROM players;")
+            plist = cur.fetchall()  # data returned as tuples
 
     return render_template('players.html', plist=plist)
 
