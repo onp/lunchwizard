@@ -1,7 +1,8 @@
 from dbConnect import dbConnect
 
-# use "heroku pg:reset DATABASE" to clear everything from the database before running this.
-# run with "heroku run python table_setup.py"
+# Use "heroku pg:reset DATABASE" to clear everything from the database before
+#  running this.
+# Run with "heroku run python table_setup.py"
 
 
 playerDef = """
@@ -42,19 +43,17 @@ scoresDef = """
         score          smallint,
         points         smallint,
         tiebreak       smallint,
-        
+
         PRIMARY KEY(game_id,player_id)
     );
 """
-
-
 
 datedScores = """
     CREATE VIEW datedScores AS
     SELECT * FROM games INNER JOIN scores
     USING (game_id)
 """
-    
+
 
 conn = dbConnect()
 
@@ -68,7 +67,8 @@ cur.execute(datedScores)
 
 conn.commit()
 
-cur.execute("SELECT relname FROM pg_class WHERE relkind='r' AND relname !~ '^(pg_|sql_)';")
+cur.execute("""SELECT relname FROM pg_class
+            WHERE relkind='r' AND relname !~ '^(pg_|sql_)';""")
 
 print("created:")
 print(cur.fetchall())
