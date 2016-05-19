@@ -31,7 +31,7 @@ gamesDef = """
 
         game_id        serial         PRIMARY KEY,
         month_id       integer        REFERENCES monthlyConfig,
-        game_date      timestamp
+        game_date      timestamp,
         league_game    boolean
 
     );
