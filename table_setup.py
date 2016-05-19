@@ -10,7 +10,7 @@ playerDef = """
 
         player_id      serial         PRIMARY KEY,
         name           varchar(30)    UNIQUE NOT NULL,
-        join_date      timestamp
+        join_date      timestamp,
         retired        boolean
 
     );
