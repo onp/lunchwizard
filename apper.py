@@ -101,7 +101,13 @@ def player(player_id):
                         (player_id,))
             name = cur.fetchone()[0]
 
-    return render_template("player.html", name=name)
+        with conn.cursor() as cur:
+            cur.execute("""SELECT game_id, game_date, points
+                        FROM datedScores WHERE player_id = %s""",
+                        (player_id,))
+            games = cur.fetchall()
+
+    return render_template("player.html", name=name, games=games)
 
 
 @app.route("/game/<int:game_id>")
@@ -115,7 +121,14 @@ def game(game_id):
                         (game_id,))
             date = cur.fetchone()[0]
 
-    return render_template("game.html", date=date)
+        with conn.cursor() as cur:
+            cur.execute("""SELECT player_id, name, score
+                        FROM scores INNER JOIN players ON player_id
+                        WHERE game_id = %s""",
+                        (game_id,))
+            scores = cur.fetchall()
+
+    return render_template("game.html", date=date, scores=scores)
 
 
 @app.route("/gameList")
@@ -133,7 +146,7 @@ def excelUpload():
 
     if request.method == 'POST':
         wb = load_workbook(request.files['excelUpload'])
-        ws = wb["raw"]
+        ws = wb["points"]
         playerIDs = []
 
         with conn:

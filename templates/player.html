@@ -4,4 +4,17 @@
 
     <h1>{{name}}</h1>
 
+    <table>
+        <tr>
+            <th>date</th>
+            <th>score</th>
+        </tr>
+        {% for game in games %}
+            <tr>
+                <td> <a href="{{ url_for('game', game_id=game[0] }}"> {{ game[1] }} </a> </td>
+                <td> {{ game [2] }} </td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

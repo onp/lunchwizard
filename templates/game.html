@@ -4,4 +4,17 @@
 
     <h1>{{date}}</h1>
 
+    <table>
+        <tr>
+            {% for player in scores %}
+                <th><a href="{{ url_for('player', player_id=player[0] }}"> {{ player[1] }} </a></th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for player in scores %}
+                <td> {{ player[2] }} <td>
+            {% endfor %}
+
+    </table>
+
 {% endblock %}
