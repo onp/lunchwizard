@@ -39,8 +39,8 @@ def data():
             # get players that were active in the time period
             cur.execute("""SELECT DISTINCT player_id
                         FROM datedScores
-                        WHERE date > %s
-                        AND date < %s """,
+                        WHERE game_date > %s
+                        AND game_date < %s """,
                         (date1, date2))
 
             plist = [x[0] for x in cur.fetchall()]
@@ -49,7 +49,7 @@ def data():
             # get scores for active players
             data = {}
             for p in plist:
-                cur.execute("""SELECT date, points
+                cur.execute("""SELECT game_date, points
                             FROM datedScores
                             WHERE player_id = %s """,
                             (p,))
@@ -66,7 +66,7 @@ def scoreTableDataFetcher():
     with conn:
         with conn.cursor() as cur:
             # get a list of all games
-            cur.execute("SELECT game_id, date FROM games")
+            cur.execute("SELECT game_id, game_date FROM games")
             games = cur.fetchall()
 
         with conn.cursor() as cur:
@@ -111,7 +111,7 @@ def game(game_id):
 
     with conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT date FROM games WHERE game_id = %s",
+            cur.execute("SELECT game_date FROM games WHERE game_id = %s",
                         (game_id,))
             date = cur.fetchone()[0]
 
@@ -156,7 +156,7 @@ def excelUpload():
         with conn:
             with conn.cursor() as cur:
                 for game in ws.rows[1:]:
-                    cur.execute("""INSERT INTO games (date)
+                    cur.execute("""INSERT INTO games (game_date)
                                 VALUES (%s) RETURNING game_id""",
                                 (game[0].value,))
                     gameID = cur.fetchone()[0]
